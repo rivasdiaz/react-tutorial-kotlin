@@ -8,11 +8,11 @@ import react.RState
 import react.dom.button
 import react.setState
 
-class Square(): RComponent<RProps, Square.State>() {
+class Square(): RComponent<Square.Props, Square.State>() {
 
     override fun RBuilder.render() {
         button(classes = "square") {
-            +state.value
+            +(state.value ?: "")
             attrs.onClickFunction = {
                 setState {
                     value = "X"
@@ -21,9 +21,15 @@ class Square(): RComponent<RProps, Square.State>() {
         }
     }
 
+    interface Props: RProps {
+        var value: String?
+    }
+
     interface State: RState {
-        var value: String
+        var value: String?
     }
 }
 
-fun RBuilder.square() = child(Square::class) {}
+fun RBuilder.square(value: String?) = child(Square::class) {
+    attrs.value = value
+}

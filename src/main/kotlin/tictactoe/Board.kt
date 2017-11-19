@@ -6,10 +6,14 @@ import react.RProps
 import react.RState
 import react.dom.div
 
-class Board(): RComponent<RProps, RState>() {
+class Board(): RComponent<RProps, Board.State>() {
+
+    init {
+        state.squares = Array(9) { null }
+    }
 
     fun RBuilder.renderSquare(i: Int) {
-        square()
+        square(value = state.squares[i])
     }
 
     override fun RBuilder.render() {
@@ -33,6 +37,10 @@ class Board(): RComponent<RProps, RState>() {
                 renderSquare(8)
             }
         }
+    }
+
+    interface State: RState {
+        var squares: Array<String?>
     }
 }
 
