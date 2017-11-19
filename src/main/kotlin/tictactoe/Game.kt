@@ -16,19 +16,21 @@ class Game(): RComponent<RProps, Game.State>() {
     init {
         state.apply {
             history = arrayOf(HistoryEntry(Array<String?>(9) { null }))
+            stepNumber = 0
             xIsNext = true
         }
     }
 
     fun handleClick(i: Int) {
-        val history = state.history
-        val current = state.history.last()
+        val history = state.history.sliceArray(0..state.stepNumber)
+        val current = history.last()
         val squares = current.squares.copyOf()
         if (calculateWinner(squares) != null || squares[i] != null)
             return
         squares[i] = if (state.xIsNext) "X" else "O"
         setState {
             this.history = history + HistoryEntry(squares)
+            stepNumber = history.size
             xIsNext = !state.xIsNext
         }
     }
@@ -52,7 +54,10 @@ class Game(): RComponent<RProps, Game.State>() {
     }
 
     fun jumpTo(step: Int) {
-        TODO()
+        setState {
+            stepNumber = step
+            xIsNext = (step % 2) == 0
+        }
     }
 
     fun RBuilder.movesNodes() =
@@ -73,7 +78,7 @@ class Game(): RComponent<RProps, Game.State>() {
 
     override fun RBuilder.render() {
         val history = state.history
-        val current = history.last()
+        val current = history[state.stepNumber]
         val winner = calculateWinner(current.squares)
         val status =
                 if (winner != null)
@@ -97,6 +102,7 @@ class Game(): RComponent<RProps, Game.State>() {
     interface State: RState {
         var history: Array<HistoryEntry>
         var xIsNext: Boolean
+        var stepNumber: Int
     }
 
     data class HistoryEntry(var squares: Array<String?>)
