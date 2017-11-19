@@ -2,7 +2,10 @@
 
 An implementation of the [React Tutorial](https://reactjs.org/tutorial/tutorial.html) using Kotlin.
 
-It uses JetBrain official
+See related
+[Medium article](https://medium.com/@rivasdiaz/playing-with-kotlin-react-official-wrapper-e4a6f43be4ac).
+
+This project uses JetBrain official
 [Kotlin React](https://github.com/JetBrains/kotlin-wrappers/tree/master/kotlin-react)
 and
 [Kotlin React DOM](https://github.com/JetBrains/kotlin-wrappers/tree/master/kotlin-react-dom)
