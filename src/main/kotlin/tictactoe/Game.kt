@@ -1,10 +1,14 @@
 package tictactoe
 
+import kotlinx.html.js.onClickFunction
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
+import react.dom.button
 import react.dom.div
+import react.dom.li
+import react.dom.ol
 import react.setState
 
 class Game(): RComponent<RProps, Game.State>() {
@@ -47,6 +51,25 @@ class Game(): RComponent<RProps, Game.State>() {
         return null
     }
 
+    fun jumpTo(step: Int) {
+        TODO()
+    }
+
+    fun RBuilder.movesNodes() =
+            state.history.mapIndexed { step, move ->
+                val desc =
+                        if (step != 0)
+                            "Go to move #$step"
+                        else
+                            "Go to game start"
+                li {
+                    button {
+                        +desc
+                        attrs.onClickFunction = { jumpTo(step) }
+                    }
+                }
+            }
+
     override fun RBuilder.render() {
         val history = state.history
         val current = history.last()
@@ -65,7 +88,7 @@ class Game(): RComponent<RProps, Game.State>() {
             }
             div(classes = "game-info") {
                 div { +status }
-                div {/* TODO */}
+                ol { movesNodes() }
             }
         }
     }
