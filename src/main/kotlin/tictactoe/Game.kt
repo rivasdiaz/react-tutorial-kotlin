@@ -63,6 +63,7 @@ class Game(): RComponent<RProps, Game.State>() {
                         else
                             "Go to game start"
                 li {
+                    key = step.toString()
                     button {
                         +desc
                         attrs.onClickFunction = { jumpTo(step) }
