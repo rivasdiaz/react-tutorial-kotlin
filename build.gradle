@@ -1,0 +1,59 @@
+buildscript {
+    ext {
+        kotlin_version = '1.1.60'
+        kotlin_frontend_version = '0.0.23'
+    }
+    repositories {
+        jcenter()
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:$kotlin_frontend_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+apply plugin: 'org.jetbrains.kotlin.frontend'
+
+repositories {
+    jcenter()
+    maven { url 'https://kotlin.bintray.com/kotlin-js-wrappers' }
+}
+
+ext {
+    kotlinx_html_version = '0.6.6'
+    kotlin_react_version = '16.0.0-pre.8-kotlin-1.1.51'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3.1'
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    compile "org.jetbrains:kotlin-react-dom:$kotlin_react_version"
+}
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
+compileKotlin2Js {
+    kotlinOptions {
+        moduleKind = 'commonjs'
+    }
+}
+
+kotlinFrontend {
+    npm {
+        dependency "react"
+        dependency "react-dom"
+    }
+    webpackBundle {
+        bundleName = 'tictactoe'
+        contentPath = file('src/main/web')
+    }
+}
