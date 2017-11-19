@@ -6,11 +6,17 @@ import react.RProps
 import react.RState
 import react.dom.button
 
-class Square(): RComponent<RProps, RState>() {
+class Square(): RComponent<Square.Props, RState>() {
 
     override fun RBuilder.render() {
-        button(classes = "square") {/* TODO */}
+        button(classes = "square") { +props.value.toString() }
+    }
+
+    interface Props: RProps {
+        var value: Int
     }
 }
 
-fun RBuilder.square() = child(Square::class) {}
+fun RBuilder.square(value: Int) = child(Square::class) {
+    attrs.value = value
+}
